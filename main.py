@@ -28,10 +28,15 @@ def main():
     params = {"circle-token": token}
     response = requests.get(url, params=params)
     content = response.json()
+    displayed = []
     for build in content:
         repo = f"{build['username']}/{build['reponame']}/{build['branch']}"
+        if repo in displayed:
+            continue
+
         status = get_status(build["status"])
         print(f"{status} {repo}")
+        displayed.append(repo)
 
 
 if __name__ == "__main__":
